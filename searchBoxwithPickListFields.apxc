@@ -1,0 +1,30 @@
+public class searchBoxwithPickListFieldsCtrl {
+    
+    @Auraenabled
+    public static map<String,List<String>> getAccountFields() 
+    {
+        map<String,List<String>> Mp=new map<String,List<String>>();
+        Map <String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map <String, Schema.SObjectField> FieldMap = schemaMap.get('Account').getDescribe().fields.getMap();
+        List<String> entities = new List<String>(FieldMap.keySet());
+        entities.sort();
+        Mp.put('FieldName',entities);
+        System.debug('===>Mp '+Mp);
+        return Mp;
+    }
+    @Auraenabled
+    public static List <account> getResults(String srctext , String pickVal){
+        system.debug('srctext==> '+srctext);
+        system.debug('pickVal==> '+pickVal);
+        String searchKey = '%'+srctext + '%';
+        system.debug('searchKey==> '+searchKey);
+        List <Account> returnList = new List <Account>();
+        String query = 'select id, Name, Industry, Phone, Email_Address__c,Active__c from Account where '+pickVal+' LIKE' + '\'%'+ srctext+'%\'';
+        system.debug('====> '+query);
+        List <Account> lstOfAccount = Database.query(query);
+        for (Account acc: lstOfAccount) {
+            returnList.add(acc);
+        }
+        return returnList;
+    }
+}
