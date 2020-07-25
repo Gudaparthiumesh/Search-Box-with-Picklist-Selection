@@ -1,0 +1,90 @@
+<aura:component controller="searchBoxwithPickListFieldsCtrl" implements="force:appHostable,forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="requiredFields" type="List"/>
+    <aura:attribute name="searchedResults" type="List"/>
+    <aura:attribute name="searchedResultsLength" type="Integer"/>
+    <div style="padding: 0.2%; background: rgb(64, 64, 64);border-radius:10px 10px 0px 0px;">
+        <div class="slds-p-around_small slds-text-heading_small slds-text-color_inverse" style="text-align:center">
+            Search Box with PickList Fields
+        </div>
+    </div>
+    <br/>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+        </div>
+        
+        <div class="slds-col slds-size_5-of-12">
+            <ui:inputText class="slds-input" label="" aura:id="searchText" placeholder="Search ...." />
+        </div>
+        <div class="slds-col slds-size_2-of-12">
+            <lightning:select label="" aura:id="selectedPicklistValue">
+                <option value="None">--None--</option>
+                <aura:iteration items="{!v.requiredFields}" var="reqFlds">
+                    <option text="{!reqFlds}" >
+                    </option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-size_1-of-12">
+            <lightning:button variant="success" label="Search" onclick="{!c.searchResults}"/>&nbsp;
+        </div>
+        <div class="slds-col">
+        </div>
+    </div>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+        </div>
+        <div class="slds-col slds-size_10-of-12 slds-p-around_small">
+            <aura:if isTrue="{!v.searchedResultsLength !=0}">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate">Account Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate">Phone</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate">Industry</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" >Email</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate">Active</div>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <aura:iteration items="{!v.searchedResults}" var="res">
+                    <tr class="slds-hint-parent">
+                        <td>
+                            <div class="slds-truncate">{!res.Name}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!res.Phone}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!res.Industry}</div>
+                        </td>
+                        <td >
+                            <div class="slds-truncate">{!res.Email_Address__c}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!res.Active__c}</div>
+                        </td>
+                    </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+                <aura:set attribute="else">
+                    <p align="center" style="color:red" class="slds-text-heading_medium"> No Results Found</p>
+                </aura:set>
+            </aura:if>
+        </div>
+        <div class="slds-col">
+        </div>
+    </div>
+</aura:component>
