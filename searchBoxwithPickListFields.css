@@ -1,0 +1,7 @@
+.THIS .slds-form-element__label {
+    display: none;
+}
+.THIS .slds-table_bordered{
+    border-right: 1px solid rgb(217, 219, 221);
+    border-left: 1px solid rgb(217, 219, 221);
+}
